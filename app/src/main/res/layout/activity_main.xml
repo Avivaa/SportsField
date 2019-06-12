@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:background="@android:color/background_light"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/index"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/index" />
+
+    <TextView
+        android:id="@+id/applytip"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="@string/applytip"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textStyle="bold"
+        tools:textSize="36sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Spinner
+            android:id="@+id/starthour"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/hour"></Spinner>
+
+        <TextView
+            android:id="@+id/colon1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=":"
+            tools:layout_width="5dp" />
+
+        <Spinner
+            android:id="@+id/startminute"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/minute"></Spinner>
+
+        <TextView
+            android:id="@+id/dash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="——" />
+
+        <Spinner
+            android:id="@+id/endhour"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/hour"></Spinner>
+
+        <TextView
+            android:id="@+id/colon2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=":"
+            tools:layout_width="5dp" />
+
+        <Spinner
+            android:id="@+id/endminute"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/minute"></Spinner>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/startapply"
+        style="@android:style/Widget.Holo.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:onClick="openApply"
+        android:text="@string/startapply"
+        android:textStyle="bold"
+        tools:background="@android:color/holo_orange_light" />
+
+</LinearLayout>
