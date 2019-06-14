@@ -16,10 +16,11 @@ import android.widget.TextView;
 
 public class Badminton extends Fragment {
 
-    public int starthour;
-    public int startminute;
-    public int endhour;
-    public int endminute;
+    public String inputOrderdate;
+    public String starthour;
+    public String startminute;
+    public String endhour;
+    public String endminute;
     public boolean btn_color=false;
 
     TextView showbadtime;
@@ -127,12 +128,13 @@ public class Badminton extends Fragment {
             }});
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("mysports",Context.MODE_PRIVATE);
-        starthour=sharedPreferences.getInt("start_hour_key",0);
-        startminute=sharedPreferences.getInt("start_minute_key",0);
-        endhour=sharedPreferences.getInt("end_hour_key",0);
-        endminute=sharedPreferences.getInt("end_minute_key",0);
+        inputOrderdate=sharedPreferences.getString("order_date_key","");
+        starthour=sharedPreferences.getString("start_hour_key","");
+        startminute=sharedPreferences.getString("start_minute_key","");
+        endhour=sharedPreferences.getString("end_hour_key","");
+        endminute=sharedPreferences.getString("end_minute_key","");
 
-        showbadtime.setText(starthour+":"+startminute+" —— "+endhour+":"+endminute);
+        showbadtime.setText(inputOrderdate+" "+starthour+":"+startminute+" —— "+endhour+":"+endminute);
 
         return badmintonLayout;
     }

@@ -12,10 +12,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class Tennis extends Fragment {
-    public int starthour;
-    public int startminute;
-    public int endhour;
-    public int endminute;
+    public String inputorderdate;
+    public String starthour;
+    public String startminute;
+    public String endhour;
+    public String endminute;
     public boolean btn_color=false;
 
     TextView showtentime;
@@ -93,12 +94,13 @@ public class Tennis extends Fragment {
             }});
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("mysports",Context.MODE_PRIVATE);
-        starthour=sharedPreferences.getInt("start_hour_key",0);
-        startminute=sharedPreferences.getInt("start_minute_key",0);
-        endhour=sharedPreferences.getInt("end_hour_key",0);
-        endminute=sharedPreferences.getInt("end_minute_key",0);
+        inputorderdate=sharedPreferences.getString("order_date_key","");
+        starthour=sharedPreferences.getString("start_hour_key","");
+        startminute=sharedPreferences.getString("start_minute_key","");
+        endhour=sharedPreferences.getString("end_hour_key","");
+        endminute=sharedPreferences.getString("end_minute_key","");
 
-        showtentime.setText(starthour+":"+startminute+" —— "+endhour+":"+endminute);
+        showtentime.setText(inputorderdate+" "+starthour+":"+startminute+" —— "+endhour+":"+endminute);
 
         return tennisLayout;
     }
