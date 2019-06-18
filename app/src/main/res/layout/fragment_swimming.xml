@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:text="@string/applyerName"/>
         <EditText
-            android:id="@+id/edName"
+            android:id="@+id/edswimName"
             android:layout_width="150dp"
             android:layout_height="wrap_content" /></LinearLayout>
 
@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/applyerID"/>
             <EditText
-                android:id="@+id/edID"
+                android:id="@+id/edswimID"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content" /></LinearLayout>
 
@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/applyNum"/>
             <EditText
-                android:id="@+id/edNum"
+                android:id="@+id/edswimNum"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content" /></LinearLayout>
             <Button
@@ -62,7 +62,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:text="@string/sportsOrder"/>
+                android:text="@string/pay"/>
 
     </LinearLayout>
 
