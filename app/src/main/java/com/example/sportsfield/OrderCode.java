@@ -1,13 +1,18 @@
 package com.example.sportsfield;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
@@ -15,13 +20,19 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Hashtable;
 
 public class OrderCode extends AppCompatActivity {
-    public String activityID, inputOrderdate, badfieldID, badname, badID, badnum, tenfieldID,tenname,tenID,tennum,swimname,swimID,swimnum;
+    public String activityID, orderdate, badfieldID, badname, badID, badnum, tenfieldID,tenname,tenID,tennum,swimname,swimID,swimnum;
     public String starthour, startminute, endhour, endminute;
     public StringBuffer stringBuffer;
     public String orderStr;
+    public String backnews;
 
     ImageView imageView;
     @Override
@@ -31,13 +42,15 @@ public class OrderCode extends AppCompatActivity {
         imageView=findViewById(R.id.showOrderCode);
 
         SharedPreferences sharedPreferences = getSharedPreferences("mysports", Context.MODE_PRIVATE);
-        inputOrderdate = sharedPreferences.getString("order_date_key", "");
+        orderdate = sharedPreferences.getString("order_date_key", "");
         starthour = sharedPreferences.getString("start_hour_key", "");
         startminute = sharedPreferences.getString("start_minute_key", "");
         endhour = sharedPreferences.getString("end_hour_key", "");
         endminute = sharedPreferences.getString("end_minute_key", "");
         activityID=getIntent().getStringExtra("activity_id_key");
+        backnews=getIntent().getStringExtra("backnews");
         stringBuffer=new StringBuffer("运动订单信息：");
+        Toast.makeText(this,backnews,Toast.LENGTH_SHORT).show();
 
         if(activityID.equals("1")) {
             badfieldID = sharedPreferences.getString("badfield_ID_key", "");
@@ -45,7 +58,7 @@ public class OrderCode extends AppCompatActivity {
             badID = sharedPreferences.getString("bad_ID_key", "");
             badnum = sharedPreferences.getString("bad_num_key", "");
             stringBuffer.append("\n"+"姓名："+badname+","+"学号："+badID+","+"人数："+badnum+"\n"+
-                                 "时间:"+inputOrderdate+","+starthour+":"+startminute+"——"+endhour+":"+endminute+"\n"+
+                                 "时间:"+orderdate+","+starthour+":"+startminute+"——"+endhour+":"+endminute+"\n"+
                                  "羽毛球场:"+badfieldID);
 
         }else if(activityID.equals("2")) {
@@ -54,7 +67,7 @@ public class OrderCode extends AppCompatActivity {
             tenID = sharedPreferences.getString("ten_ID_key", "");
             tennum = sharedPreferences.getString("ten_num_key", "");
             stringBuffer.append("\n"+"姓名："+tenname+","+"学号："+tenID+","+"人数："+tennum+"\n"+
-                    "时间:"+inputOrderdate+","+starthour+":"+startminute+"——"+endhour+":"+endminute+"\n"+
+                    "时间:"+orderdate+","+starthour+":"+startminute+"——"+endhour+":"+endminute+"\n"+
                     "网球场:"+tenfieldID);
         }else {
             swimname = sharedPreferences.getString("swim_name_key", "");
@@ -63,11 +76,12 @@ public class OrderCode extends AppCompatActivity {
             stringBuffer.append("\n"+"姓名："+swimname+","+"学号："+swimID+","+"人数："+swimnum);
         }
         orderStr=stringBuffer.toString();
-        Bitmap bitmap = createQRImage(orderStr, 300, 300, BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher));
+        Bitmap bitmap = createQRImage(orderStr, 500, 500, BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher));
         imageView.setImageBitmap(bitmap);
 
     }
-        public  Bitmap createQRImage(String Str, int width, int height, Bitmap bitmap) {
+
+    public  Bitmap createQRImage(String Str, int width, int height, Bitmap bitmap) {
             try {
                 // 判断URL合法性
                 if (Str == null || "".equals(Str) || Str.length() < 1) {

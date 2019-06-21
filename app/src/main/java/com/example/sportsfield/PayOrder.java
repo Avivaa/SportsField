@@ -69,6 +69,12 @@ public class PayOrder extends AppCompatActivity implements Runnable{
                 if (msg.what == 3) {
                     Bundle bdl = (Bundle) msg.obj;
                     getbacknews = bdl.getString("backnews");
+                    if(getbacknews.equals("预定成功")){
+                    Intent intent=new Intent(PayOrder.this,OrderCode.class);
+                    intent.putExtra("backnews",getbacknews);
+                    intent.putExtra("activity_id_key",activityID);
+                    startActivity(intent);}
+                    else { Toast.makeText(PayOrder.this,getbacknews,Toast.LENGTH_SHORT).show();}
                 }
                 super.handleMessage(msg);
             }
