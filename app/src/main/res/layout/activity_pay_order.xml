@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="300dp"
+    android:layout_width="match_parent"
     android:layout_height="350dp"
     android:orientation="vertical"
     android:layout_gravity="center"
@@ -19,7 +19,8 @@
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:textSize="20sp"
-            android:text="订单金额" />
+            android:text="订单金额"
+            android:textAppearance="@style/TextAppearance.AppCompat" />
 
         <TextView
             android:id="@+id/showMoney"
@@ -35,13 +36,15 @@
         android:layout_height="40dp"
         android:text="@string/payway"
         android:textSize="20sp"
+        android:textAppearance="@style/TextAppearance.AppCompat"
         />
 
     <RadioGroup
             android:id="@+id/rg_1"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_gravity="center">
             <RadioButton
                 android:id="@+id/rb_1"
                 android:layout_width="wrap_content"
@@ -50,6 +53,11 @@
                 android:textSize="16sp"
                 android:textColor="#0f55c5"
                 />
+        <ImageView
+            android:id="@+id/weixin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/weixinzhifu"/>
             <RadioButton
                 android:id="@+id/rb_2"
                 android:layout_width="wrap_content"
@@ -59,6 +67,11 @@
                 android:textSize="16sp"
                 android:textColor="#0f55c5"
                 />
+        <ImageView
+            android:id="@+id/zhifubao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/zhifubao"/>
             <RadioButton
                 android:id="@+id/rb_3"
                 android:layout_width="wrap_content"
@@ -68,6 +81,11 @@
                 android:textSize="16sp"
                 android:textColor="#0f55c5"
                 />
+        <ImageView
+            android:id="@+id/sportscard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/swipe"/>
     </RadioGroup>
 
     <Button

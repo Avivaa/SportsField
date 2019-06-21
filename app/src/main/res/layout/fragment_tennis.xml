@@ -78,11 +78,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/tennameicon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/name"/>
             <TextView
                 android:id="@+id/tenName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/applyerName"/>
+                android:text="@string/applyerName"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                android:textSize="18sp"/>
             <EditText
                 android:id="@+id/edtenName"
                 android:layout_width="150dp"
@@ -92,11 +99,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/tenIDicon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/id"/>
             <TextView
                 android:id="@+id/tenID"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/applyerID"/>
+                android:text="@string/applyerID"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                android:textSize="18sp"/>
             <EditText
                 android:id="@+id/edtenID"
                 android:layout_width="150dp"
@@ -106,11 +120,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/tennumicon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/num"/>
             <TextView
                 android:id="@+id/tenNum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/applyNum"/>
+                android:text="@string/applyNum"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                android:textSize="18sp"/>
             <EditText
                 android:id="@+id/edtenNum"
                 android:layout_width="150dp"
@@ -118,32 +139,56 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40sp"
             android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/tentimeicon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/time"/>
             <TextView
                 android:id="@+id/tenTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/applyTime"/>
+                android:text="@string/applyTime"
+                android:layout_gravity="center"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                android:textSize="18sp"/>
             <TextView
                 android:id="@+id/showtenTime"
                 android:layout_width="300dp"
-                android:layout_height="30dp" />
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                android:textSize="15sp"
+                android:gravity="center"/>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40sp"
             android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/tenfieldicon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/wangqiu"/>
             <TextView
                 android:id="@+id/tenfieldID"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/fieldId"/>
+                android:layout_gravity="center"
+                android:text="@string/fieldId"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                android:textSize="18sp"/>
             <TextView
                 android:id="@+id/showtenfieldID"
                 android:layout_width="100dp"
-                android:layout_height="30dp" /></LinearLayout>
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                android:textSize="18sp" /></LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
