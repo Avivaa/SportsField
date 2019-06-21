@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
@@ -21,20 +22,25 @@ import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
 
+import org.w3c.dom.Text;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "";
     private Spinner sp1, sp2, sp3, sp4;
-    public EditText inputOrderDate;
-    public String inputOrderdate;
+    public TextView showOrderDate;
+    public String orderdate;
     public String startHour;
     public String startMinute;
     public String endHour;
@@ -72,7 +78,12 @@ public class MainActivity extends AppCompatActivity {
         slider.setDuration(4000);//设置滚动时间，也是计时器时间
         slider.addOnPageChangeListener(onPageChangeListener);
 
-        inputOrderDate = findViewById(R.id.inputOrderdate);
+        showOrderDate = findViewById(R.id.showOrderdate);
+        Date today= Calendar.getInstance().getTime();
+        SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd"); //小写m表示分钟
+        orderdate= sdf.format(today);
+        showOrderDate.setText(orderdate);
+
         sp1 = findViewById(R.id.starthour);
         sp2 = findViewById(R.id.startminute);
         sp3 = findViewById(R.id.endhour);
@@ -139,10 +150,9 @@ public class MainActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> arg0) {
             }
         });
-        inputOrderdate = inputOrderDate.getText().toString();
         SharedPreferences sharedPreferences = getSharedPreferences("mysports", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit(); //编辑改写都要用editor
-        editor.putString("order_date_key", inputOrderdate);
+        editor.putString("order_date_key", orderdate);
         editor.putString("start_hour_key", startHour);
         editor.putString("start_minute_key", startMinute);
         editor.putString("end_hour_key", endHour);
