@@ -5,8 +5,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -25,6 +28,12 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -34,10 +43,11 @@ import static android.content.ContentValues.TAG;
 
 public class Badminton extends Fragment {
 
-    public String inputOrderdate, starthour, startminute, endhour, endminute;
+    public String orderdate, starthour, startminute, endhour, endminute;
     public String badname, badID, badnum, badfieldID;
     public String activityID;
     public boolean btn_color = false;
+    public boolean selected_color = true;
 
     EditText edbadName;
     EditText edbadID;
@@ -46,8 +56,9 @@ public class Badminton extends Fragment {
     TextView showbadFieldID;
     Button button1, button2, button3, button4, button5, button6,
             button7, button8, button9, button10, button11, button12,Order;
-
-
+    
+    Connection connection;
+    Handler myHandler;
     public Badminton() {
         // Required empty public constructor
     }
@@ -268,16 +279,117 @@ public class Badminton extends Fragment {
 
                 }
         });
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("mysports", Context.MODE_PRIVATE);
-        inputOrderdate = sharedPreferences.getString("order_date_key", "");
-        starthour = sharedPreferences.getString("start_hour_key", "");
-        startminute = sharedPreferences.getString("start_minute_key", "");
-        endhour = sharedPreferences.getString("end_hour_key", "");
-        endminute = sharedPreferences.getString("end_minute_key", "");
 
-        showbadtime.setText(inputOrderdate + " " + starthour + ":" + startminute + " —— " + endhour + ":" + endminute);
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("mysports",Context.MODE_PRIVATE);
+        orderdate=sharedPreferences.getString("order_date_key","");
+        starthour=sharedPreferences.getString("start_hour_key","");
+        startminute=sharedPreferences.getString("start_minute_key","");
+        endhour=sharedPreferences.getString("end_hour_key","");
+        endminute=sharedPreferences.getString("end_minute_key","");
+
+        showbadtime.setText(orderdate + " " + starthour + ":" + startminute + " —— " + endhour + ":" + endminute);
+
+
+        myHandler = new Handler(){
+            public void handleMessage(Message msg){
+                if (msg.what == 3) {
+                    Bundle bdl = (Bundle) msg.obj;
+                    String fieldID = bdl.getString("fieldID");
+                    if(fieldID.equals("1号")){
+                        button1.setActivated(selected_color); }
+                    if(fieldID.equals("2号")){
+                        button2.setActivated(selected_color); }
+                    if(fieldID.equals("3号")){
+                        button3.setActivated(selected_color);; }
+                    if(fieldID.equals("4号")){
+                        button4.setActivated(selected_color); }
+                    if(fieldID.equals("5号")){
+                        button5.setActivated(selected_color); }
+                    if(fieldID.equals("6号")){
+                        button6.setActivated(selected_color); }
+                    if(fieldID.equals("7号")){
+                        button7.setActivated(selected_color); }
+                    if(fieldID.equals("8号")){
+                        button8.setActivated(selected_color); }
+                    if(fieldID.equals("9号")){
+                        button9.setActivated(selected_color); }
+                    if(fieldID.equals("10号")){
+                        button10.setActivated(selected_color); }
+                    if(fieldID.equals("11号")){
+                        button11.setActivated(selected_color);}
+                    if(fieldID.equals("12号")){
+                        button12.setActivated(selected_color); }
+
+                }
+                Toast.makeText(getActivity(),"黄色为已选场地",Toast.LENGTH_SHORT).show();
+                super.handleMessage(msg);
+            }
+        };
+
+        Thread t= new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Class.forName("com.mysql.jdbc.Driver");
+                    connection = DriverManager.getConnection("jdbc:mysql://10.63.239.75/sportsfield", "root", "jiafeitom");
+                    Log.i("open","连接成功");
+                } catch (ClassNotFoundException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+                try {
+                    test(connection);    //测试数据库连接
+                } catch (java.sql.SQLException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        });
+        t.start();
 
         return badmintonLayout;
     }
+    public String handleString(String s)
+    {   try{ byte bb[]=s.getBytes("utf-8");
+        s=new String(bb);
+    }
+    catch(Exception ee){}
+        return s;
+    }
+    private void test(Connection con) throws java.sql.SQLException {
+        try {
+            String sql = "select badfieldID from badminton where orderdate='"+ orderdate+
+                    "'and CAST(starthour AS signed)*60+CAST(startminute AS signed) between'"+
+                    (Integer.parseInt(starthour)*60+Integer.parseInt(startminute)) +"'and'" +(Integer.parseInt(endhour)*60+Integer.parseInt(endminute))+
+                    "'or CAST(endhour AS signed)*60+CAST(endminute AS signed) between '"+
+                    (Integer.parseInt(starthour)*60+Integer.parseInt(startminute))+"'and '"+(Integer.parseInt(endhour)*60+Integer.parseInt(endminute))+"'";
+
+            Statement stmt = con.createStatement();        //创建Statement
+            ResultSet rs = stmt.executeQuery(sql);
+            //<code>ResultSet</code>最初指向第一行
+            Bundle bundle = new Bundle();
+            while (rs.next()) {
+                bundle.clear();
+                bundle.putString("fieldID", rs.getString("badfieldID"));
+
+                Message msg= myHandler.obtainMessage(3);
+                msg.obj= bundle;
+                myHandler.sendMessage(msg);
+
+            }
+            rs.close();
+            stmt.close();
+        } catch (SQLException e) {
+
+        } finally {
+            if (con!= null)
+                try {
+                    con.close();
+                } catch (SQLException e) {
+                }
+        }
+    };
 }
 
