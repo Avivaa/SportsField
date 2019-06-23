@@ -73,7 +73,8 @@ public class OrderCode extends AppCompatActivity {
             swimname = sharedPreferences.getString("swim_name_key", "");
             swimID = sharedPreferences.getString("swim_ID_key", "");
             swimnum = sharedPreferences.getString("swim_num_key", "");
-            stringBuffer.append("\n"+"姓名："+swimname+","+"学号："+swimID+","+"人数："+swimnum);
+            stringBuffer.append("\n"+"姓名："+swimname+","+"学号："+swimID+","+"人数："+swimnum+"\n"+
+                    "时间:"+orderdate+","+starthour+":"+startminute+"——"+endhour+":"+endminute);
         }
         orderStr=stringBuffer.toString();
         Bitmap bitmap = createQRImage(orderStr, 500, 500, BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher));
