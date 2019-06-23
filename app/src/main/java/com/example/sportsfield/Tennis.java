@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -174,7 +175,7 @@ public class Tennis extends Fragment {
         public void run() {
             try {
                 Class.forName("com.mysql.jdbc.Driver");
-                connection = DriverManager.getConnection("jdbc:mysql://10.63.239.75/sportsfield", "root", "jiafeitom");
+                connection = DriverManager.getConnection("jdbc:mysql://10.64.75.33/sportsfield", "root", "jiafeitom");
                 Log.i("open","连接成功");
             } catch (ClassNotFoundException e) {
                 // TODO Auto-generated catch block
@@ -183,7 +184,7 @@ public class Tennis extends Fragment {
                 e1.printStackTrace();
             }
             try {
-                test(connection);    //测试数据库连接
+                test(connection,orderdate);    //测试数据库连接
             } catch (java.sql.SQLException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -202,16 +203,15 @@ public class Tennis extends Fragment {
     catch(Exception ee){}
         return s;
     }
-    private void test(Connection con) throws java.sql.SQLException {
+    private void test(Connection con,String orderdate) throws java.sql.SQLException {
         try {
-            String sql = "select tenfieldID from tennis where orderdate='"+ orderdate+
-                    "'and CAST(starthour AS signed)*60+CAST(startminute AS signed) between'"+
+            String sql = "select tenfieldID from tennis where orderdate= ? and (CAST(starthour AS signed)*60+CAST(startminute AS signed) between'"+
                     (Integer.parseInt(starthour)*60+Integer.parseInt(startminute)) +"'and'" +(Integer.parseInt(endhour)*60+Integer.parseInt(endminute))+
-                    "'or CAST(endhour AS signed)*60+CAST(endminute AS signed) between '"+
-                    (Integer.parseInt(starthour)*60+Integer.parseInt(startminute))+"'and '"+(Integer.parseInt(endhour)*60+Integer.parseInt(endminute))+"'";
-
-            Statement stmt = con.createStatement();        //创建Statement
-            ResultSet rs = stmt.executeQuery(sql);
+                    "'or CAST(endhour AS signed)*60+CAST(endminute AS signed) between '"+ (Integer.parseInt(starthour)*60+Integer.parseInt(startminute))+
+                    "'and '"+(Integer.parseInt(endhour)*60+Integer.parseInt(endminute))+"')";
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setString(1, orderdate);//创建Statement
+            ResultSet rs = stmt.executeQuery();
             //<code>ResultSet</code>最初指向第一行
             Bundle bundle = new Bundle();
             while (rs.next()) {
